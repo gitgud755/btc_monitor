@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BitMine BTC Monitor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <header class="page-header">
+      <h1>BitMine Bitcoin Treasury Dashboard</h1>
+      <p class="subtitle">Live comparison of market pricing vs. BitMine's internal benchmarks.</p>
+    </header>
+
+    <main class="grid">
+      <section class="card highlight">
+        <h2>Spot Price</h2>
+        <p class="price">{{ price_display }}</p>
+        <p class="meta">Source: {{ price_source }}</p>
+        <dl class="details">
+          <div>
+            <dt>BTC Holdings</dt>
+            <dd>{{ bitmine.btc_holdings }} BTC</dd>
+          </div>
+          <div>
+            <dt>Holdings Market Value</dt>
+            <dd>{{ holdings_value }}</dd>
+          </div>
+          <div>
+            <dt>Internal Benchmark</dt>
+            <dd>{{ format_currency(bitmine.internal_price_per_btc) }}</dd>
+          </div>
+          <div>
+            <dt>USD Liquidity</dt>
+            <dd>{{ format_currency(bitmine.usd_liquidity) }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="card">
+        <h2>Arbitrage Watch</h2>
+        <p class="arbitrage-status">{{ arbitrage.status }}</p>
+        <p>{{ arbitrage.description }}</p>
+        <p class="spread">Spread vs. internal benchmark: {{ format_currency(arbitrage.spread) }}</p>
+      </section>
+
+      <section class="card">
+        <h2>Conviction Score</h2>
+        <div class="score" aria-label="True believer score">{{ believer.score }}/5</div>
+        <p>{{ believer.rationale }}</p>
+        <p>{{ believer.commentary }}</p>
+      </section>
+
+      <section class="card">
+        <h2>Strategy Notes</h2>
+        <p>{{ bitmine.strategic_notes }}</p>
+        <p class="meta">Updated alongside quarterly treasury disclosures.</p>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <p>API Endpoint: <code>/api/bitmine</code></p>
+      <p class="meta">Data refreshes each time the page loads.</p>
+    </footer>
+  </body>
+</html>
